@@ -32,9 +32,27 @@ diary_label = tk.Label(
     bg="#f9f9f9"
 )
 diary_label.pack(anchor="w")
+from datetime import date
 
-diary_text = tk.Text(diary_frame, height=20)
+diary_text = tk.Text(diary_frame, height=18)
 diary_text.pack(expand=True, fill="both")
+
+def save_diary():
+    entry = diary_text.get("1.0", tk.END).strip()
+    if entry:
+        today = date.today()
+        with open("diary_data.txt", "a") as file:
+            file.write(f"\nDate: {today}\n")
+            file.write(entry + "\n")
+        diary_text.delete("1.0", tk.END)
+
+save_button = tk.Button(
+    diary_frame,
+    text="Save Diary",
+    command=save_diary
+)
+save_button.pack(pady=5)
+
 
 # Task Tracker Section (Right)
 task_frame = tk.Frame(main_frame, width=250, bg="#f0f0f0")
