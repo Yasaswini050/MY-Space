@@ -1,4 +1,6 @@
 import tkinter as tk
+from datetime import date
+import os
 
 # =========================
 # Main Window
@@ -43,6 +45,27 @@ diary_label.pack(anchor="w")
 
 diary_text = tk.Text(diary_frame)
 diary_text.pack(expand=True, fill="both")
+def save_diary():
+    entry = diary_text.get("1.0", tk.END).strip()
+    if not entry:
+        return  # do nothing if empty
+
+    today = date.today()
+    file_path = os.path.join(os.path.dirname(__file__), "diary_data.txt")
+
+    with open(file_path, "a", encoding="utf-8") as file:
+        file.write(f"\nDate: {today}\n")
+        file.write(entry + "\n")
+
+    diary_text.delete("1.0", tk.END)
+    save_button = tk.Button(
+    diary_frame,
+    text="Save Diary",
+    command=save_diary
+)
+save_button.pack(pady=5)
+
+
 
 # =========================
 # Task Tracker Section (Right)
