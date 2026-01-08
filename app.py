@@ -1,5 +1,4 @@
 import tkinter as tk
-from datetime import date
 
 # =========================
 # Main Window
@@ -42,28 +41,8 @@ diary_label = tk.Label(
 )
 diary_label.pack(anchor="w")
 
-diary_text = tk.Text(diary_frame, height=20)
+diary_text = tk.Text(diary_frame)
 diary_text.pack(expand=True, fill="both")
-
-# =========================
-# Autosave Diary
-# =========================
-last_saved_text = ""
-
-def autosave_diary():
-    global last_saved_text
-    current_text = diary_text.get("1.0", tk.END).strip()
-
-    if current_text and current_text != last_saved_text:
-        today = date.today()
-        with open("diary_data.txt", "a") as file:
-            file.write(f"\nDate: {today}\n")
-            file.write(current_text + "\n")
-        last_saved_text = current_text
-
-    root.after(5000, autosave_diary)  # autosave every 5 seconds
-
-autosave_diary()
 
 # =========================
 # Task Tracker Section (Right)
